@@ -1,0 +1,51 @@
+
+	╔══════════════════════════════════════════════════════════════╗
+	║                       AYUDA AL RESCATE                       ║
+	╠══════════════════════════════════════════════════════════════╣
+	║NO TE PREOCUPES! LLEGÓ LA AYUDA!			       ║
+	║							       ║
+	║Para interactuar con el hospital, se disponen de una serie de ║
+	║comandos, los cuales tienen diferentes funciones.	       ║
+	║Para ejecutar los mismos, se introduce una letra o palabra    ║
+	║característica. Cabe recalcar, que el programa admite varias  ║
+	║formas de llamar a la misma operación, y no distingue entre   ║
+	║minúsculas y mayúsculas, por lo que tu interacción con el     ║
+	║mismo a la hora de realizar una operación será más intuitiva. ║
+	║							       ║
+	║En primer instancia, tenés disponible los siguientes comandos:║
+	║ ■ H, Pedir ayuda: muestra este mensaje!		       ║
+	║ ■ S, Salir del hospital: sale del hospital, cerrando el      ║
+	║	programa.					       ║
+	║ ■ C, Cargar un hospital: (con este comando deberías empezar!)║
+	║	Este comando crea un nuevo hospital a partir de un     ║
+	║	archivo donde se encuentren los pokemones del mismo,   ║
+	║	el cual vas a tener que presentar pasando el nombre del║
+	║	mismo cuando se te lo solicite, además de un número de ║
+	║	identificación. 				       ║
+	║	Tené en cuenta que el archivo a presentar debe ser en  ║
+	║	tipo CSV con el siguiente formato de datos del pokemon:║
+	║	"Numero, Nombre, Salud, Entrenador", como por ejemplo  ║
+	║	"1,Pikachu,20,Lucas"				       ║
+	║							       ║
+	║Luego, a partir de que hayas cargado al menos un hospital, se ║
+	║desbloquean los siguientes comandos (en realidad ya están     ║
+	║desbloqueados, pero ahora sí tiene sentido usarlos!):	       ║
+	║ ■ A, Activar un hospital cargado: pide el número del hospital║
+	║	a activar y habilita su utilización. Desde el momento  ║
+	║	en que se activa, el resto de operaciónes se realizarán║
+	║	sobre este hospital, hasta que este sea desactivado o  ║
+	║	destruido.					       ║
+	║ ■ D, Destruir el hospital activo: destruye el hospital que   ║
+	║	esté activo en el momento, eliminando todos los datos  ║
+	║	del mismo. (lo sabemos, pobres pokemones...)	       ║
+	║ ■ E, Mostrar el estado de un hospital: muestra un listado de ║
+	║	todos los hospitales cargados.			       ║
+	║ ■ M, Mostrar los pokemones: muestra un listado de todos los  ║
+	║	pokemones en el hospital activo.		       ║
+	║ ■ L, Mostrar los pokemones 2.0: muestra un listado detallado ║
+	║	de todos los pokemones en el hospital activo.	       ║
+	║							       ║
+	║Esperamos que la ayuda te haya sido útil! 		       ║
+	║Atentamente, el Hospital de Pokemones.			       ║
+	╚══════════════════════════════════════════════════════════════╝
+
