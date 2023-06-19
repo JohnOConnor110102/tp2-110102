@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-//#include "hash.h"
+#include "hash.h"
 #include "lista.h"
 
 #define ERROR -1

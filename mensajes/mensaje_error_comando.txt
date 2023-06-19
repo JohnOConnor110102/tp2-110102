@@ -1,0 +1,9 @@
+	
+	╔══════════════════════════════════════════════════════════════╗
+	║                 ERROR AL EJECUTAR EL COMANDO                 ║
+	╠══════════════════════════════════════════════════════════════╣
+	║Lo sentimos mucho! No se pudo correr el programa 	       ║
+	║correctamente. Hubo un problema al ejecutar el comando.       ║
+	║Podés intentarlo de nuevo.				       ║
+	╚══════════════════════════════════════════════════════════════╝
+

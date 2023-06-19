@@ -23,9 +23,11 @@
 	║	mismo cuando se te lo solicite, además de un número de ║
 	║	identificación. 				       ║
 	║	Tené en cuenta que el archivo a presentar debe ser en  ║
-	║	tipo CSV con el siguiente formato de datos del pokemon:║
+	║	tipo txt con el siguiente formato de datos del pokemon:║
 	║	"Numero, Nombre, Salud, Entrenador", como por ejemplo  ║
-	║	"1,Pikachu,20,Lucas"				       ║
+	║	"1,Pikachu,20,Lucas".				       ║
+	║	Además es necesario que el archivo se encuentre dentro ║
+	║	de la carpeta "hospitales".			       ║
 	║							       ║
 	║Luego, a partir de que hayas cargado al menos un hospital, se ║
 	║desbloquean los siguientes comandos (en realidad ya están     ║
