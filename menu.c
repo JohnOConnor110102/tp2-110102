@@ -62,6 +62,9 @@ menu_t *menu_agregar_comando(menu_t *menu, const char *nombre,
 
 	comando_t *comando = crear_comando(nombre, instruccion, descripcion,
 					   funcion, contexto);
+	if (!comando)
+		return NULL;
+
 	lista_insertar(menu->comandos, comando);
 	return menu;
 }
