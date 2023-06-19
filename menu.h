@@ -20,7 +20,6 @@ typedef struct comando {
 typedef struct menu {
 	lista_t *comandos;
 	int cantidad_comandos;
-	bool finalizado;
 } menu_t;
 
 /* 

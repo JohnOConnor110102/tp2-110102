@@ -73,7 +73,7 @@ int buscar_comando(void *_elemento, void *_instruccion)
 
 	comando_t *comando = (comando_t *)_elemento;
 	char *instruccion = (char *)_instruccion;
-	return (strcmp(comando->instruccion, instruccion));
+	return strcmp(comando->instruccion, instruccion);
 }
 
 menu_t *menu_ejecutar_comando(menu_t *menu, const char *instruccion)
@@ -82,10 +82,9 @@ menu_t *menu_ejecutar_comando(menu_t *menu, const char *instruccion)
 		return NULL;
 	comando_t *comando = lista_buscar_elemento(
 		menu->comandos, buscar_comando, (void *)instruccion);
-	if (!comando)
+	if (!comando || !comando->funcion(menu, comando->contexto))
 		return NULL;
 
-	comando->funcion(menu, comando->contexto);
 	return menu;
 }
 
@@ -94,5 +93,6 @@ void menu_destruir(menu_t *menu)
 	if (!menu)
 		return;
 
-	lista_destruir(menu->comandos);
+	lista_destruir_todo(menu->comandos, free);
+	free(menu);
 }

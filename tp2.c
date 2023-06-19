@@ -11,7 +11,7 @@ void imprimir_archivo(FILE *archivo)
 {
 	if (!archivo)
 		return;
-
+	rewind(archivo);
 	char c = (char)fgetc(archivo);
 	while (c != EOF) {
 		printf("%c", c);
@@ -23,7 +23,6 @@ bool mostrar_mensaje(void *_menu, void *_mensaje)
 {
 	if (!_mensaje)
 		return false;
-
 	FILE *mensaje = _mensaje;
 	imprimir_archivo(mensaje);
 	return true;
@@ -38,23 +37,12 @@ void mostrar_mensaje_bienvenida()
 	mostrar_mensaje(NULL, bienvenida);
 	fclose(bienvenida);
 }
-/* 
-char pedir_comando()
-{
-	char c;
-	printf("Por favor, ingresá el comando a ejecutar: ");
-	scanf("%c", &c);
-	return c;
-} */
 
-/* bool salir_del_programa(void *_menu, void *_aux)
+bool salir_del_programa(void *_menu, void *_contexto)
 {
-	if (!_menu)
-		return false;
-	menu_t *menu = _menu;
-	menu_destruir(menu);
+	menu_destruir((menu_t *)_menu);
 	return true;
-} */
+}
 
 void agregar_comandos(menu_t *menu, FILE *mensaje_ayuda)
 {
@@ -62,10 +50,9 @@ void agregar_comandos(menu_t *menu, FILE *mensaje_ayuda)
 		menu, "Mostrar la ayuda", "h",
 		"mostrar el menu de ayuda con los comandos disponibles.",
 		mostrar_mensaje, mensaje_ayuda);
-
-	/* menu_agregar_comando(menu, "Salir del programa", "S",
-			     "salir del programa.", salir_del_programa);
-	menu_agregar_comando(
+	menu_agregar_comando(menu, "Salir del programa", "s",
+			     "salir del programa.", salir_del_programa, NULL);
+	/* menu_agregar_comando(
 		menu, "Cargar un hospital", "C",
 		"crear y cargar un hospital tomando los datos desde un archivo.",
 		cargar_hospital);
@@ -107,10 +94,17 @@ char *determinar_comando(char *instruccion)
 	if (strcmp(instruccion, "help") == 0 ||
 	    strcmp(instruccion, "ayuda") == 0) {
 		strcpy(instruccion, "h");
+	} else if (strcmp(instruccion, "salir") == 0 ||
+		   strcmp(instruccion, "exit") == 0 ||
+		   strcmp(instruccion, "quit") == 0 ||
+		   strcmp(instruccion, "q") == 0) {
+		strcpy(instruccion, "s");
 	}
+
+	return instruccion;
 }
 
-void registrar_entrada(char *entrada, char *instruccion)
+char *registrar_entrada(char *entrada, char *instruccion)
 {
 	printf("Ingrese un comando a realizar: ");
 	fgets(entrada, MAX_ENTRADA, stdin);
@@ -118,16 +112,7 @@ void registrar_entrada(char *entrada, char *instruccion)
 	for (int j = 0; instruccion[j]; j++) {
 		instruccion[j] = (char)tolower(instruccion[j]);
 	}
-	determinar_comando(instruccion);
-}
-
-bool es_salir(char *instruccion)
-{
-	return (strcmp(instruccion, "s") == 0 ||
-		strcmp(instruccion, "salir") == 0 ||
-		strcmp(instruccion, "exit") == 0 ||
-		strcmp(instruccion, "quit") == 0 ||
-		strcmp(instruccion, "q") == 0);
+	return determinar_comando(instruccion);
 }
 
 int main(int argc, char *argv[])
@@ -141,18 +126,17 @@ int main(int argc, char *argv[])
 	if (!menu)
 		return ERROR;
 
-	bool salir = false;
-	while (!salir) {
+	mostrar_mensaje_bienvenida();
+	bool finalizado = false;
+	while (!finalizado) {
 		char entrada[MAX_ENTRADA];
 		char instruccion[MAX_ENTRADA];
-		registrar_entrada(entrada, instruccion);
-		if (es_salir(instruccion)) {
-			salir = true;
-		}
+		if (strcmp(registrar_entrada(entrada, instruccion), "s") == 0)
+			finalizado = true;
+		printf("instruccion: %s\n", instruccion);
 		menu_ejecutar_comando(menu, instruccion);
 	}
-	fclose(mensaje_ayuda);
-	//char comando[] = pedir_comando();
 
+	fclose(mensaje_ayuda);
 	return 0;
 }
