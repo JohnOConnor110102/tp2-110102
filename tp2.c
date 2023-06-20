@@ -200,7 +200,7 @@ bool activar_hospital(void *_menu, void *_hash_hospitales)
 		printf("\n	╔══════════════════════════════════════════════════════════════╗\n"
 		       "	║Ya hay un hospital activo, y sólo se permite tener uno a la   ║\n"
 		       "	║vez. Si querés activar otro hospital, tenés que destruir el   ║\n"
-		       "	║activo.						       ║"
+		       "	║activo.						       ║\n"
 		       "	╚══════════════════════════════════════════════════════════════╝\n");
 		return false;
 	}
@@ -258,7 +258,7 @@ bool mostrar_pokemones(void *_menu, void *_hash_hospitales)
 
 	if (!valor_activo || !valor_activo->activo) {
 		printf("\n	╔══════════════════════════════════════════════════════════════╗\n"
-		       "	║Actualmente no hay ningún hospital activado.		       ║\n"
+		       "	║Actualmente no hay ningún hospital que haya sido activado.    ║\n"
 		       "	╚══════════════════════════════════════════════════════════════╝\n\n");
 		return false;
 	}
@@ -271,6 +271,74 @@ bool mostrar_pokemones(void *_menu, void *_hash_hospitales)
 		hospital_a_cada_pokemon(valor_activo->hospital,
 					imprimir_pokemon, NULL);
 	printf("	╚══════════════════════════════════════════════════════════════╝\n\n");
+	return true;
+}
+
+bool imprimir_pokemon_detallado(pokemon_t *pokemon, void *aux)
+{
+	if (!pokemon)
+		return false;
+
+	printf("	║Nombre: %s	ID: %lu		SALUD: %lu\n"
+	       "	║Entrenador: %s\n	║\n",
+	       pokemon_nombre(pokemon), pokemon_id(pokemon),
+	       pokemon_salud(pokemon), pokemon_entrenador(pokemon));
+	return true;
+}
+
+bool listar_pokemones(void *_menu, void *_hash_hospitales)
+{
+	if (!_menu || !_hash_hospitales)
+		return false;
+
+	hash_hospitales_t *hash_hospitales =
+		(hash_hospitales_t *)_hash_hospitales;
+
+	valor_t *valor_activo =
+		(valor_t *)hash_obtener(hash_hospitales->hospitales,
+					hash_hospitales->clave_hospital_activo);
+
+	if (!valor_activo || !valor_activo->activo) {
+		printf("\n	╔══════════════════════════════════════════════════════════════╗\n"
+		       "	║Actualmente no hay ningún hospital que haya sido activado.    ║\n"
+		       "	╚══════════════════════════════════════════════════════════════╝\n\n");
+		return false;
+	}
+
+	printf("\n	╔══════════════════════════════════════════════════════════════╗\n"
+	       "	║         LISTA DE LOS POKEMONES EN EL HOSPITAL ACTIVO         ║\n"
+	       "	╠══════════════════════════════════════════════════════════════╣\n");
+	if (hospital_cantidad_pokemones(valor_activo->hospital) == 0)
+		printf("	║Actualmente no hay hospitales cargados.		       ║\n");
+	else
+		hospital_a_cada_pokemon(valor_activo->hospital,
+					imprimir_pokemon_detallado, NULL);
+	printf("	╚══════════════════════════════════════════════════════════════╝\n\n");
+	return true;
+}
+
+bool destruir_hospital(void *_menu, void *_hash_hospitales)
+{
+	if (!_menu || !_hash_hospitales)
+		return false;
+
+	hash_hospitales_t *hash_hospitales =
+		(hash_hospitales_t *)_hash_hospitales;
+	valor_t *valor_activo =
+		hash_quitar(hash_hospitales->hospitales,
+			    hash_hospitales->clave_hospital_activo);
+	if (!valor_activo || !valor_activo->activo) {
+		printf("\n	╔══════════════════════════════════════════════════════════════╗\n"
+		       "	║Actualmente no hay ningún hospital que haya sido activado.    ║\n"
+		       "	╚══════════════════════════════════════════════════════════════╝\n\n");
+		return false;
+	}
+	hospital_destruir(valor_activo->hospital);
+	free(valor_activo);
+	printf("\n	╔══════════════════════════════════════════════════════════════╗\n"
+	       "	║               HOSPITAL DESTRUIDO CORRECTAMENTE!              ║\n"
+	       "	╚══════════════════════════════════════════════════════════════╝\n\n");
+
 	return true;
 }
 
@@ -302,19 +370,18 @@ bool agregar_comandos(menu_t *menu, FILE *mensaje_ayuda,
 	    !menu_agregar_comando(
 		    menu, "Mostrar los pokemones", "m",
 		    "mostrar los pokemones presentes en el hospital.",
-		    mostrar_pokemones, hash_hospitales)) {
+		    mostrar_pokemones, hash_hospitales) ||
+	    !menu_agregar_comando(
+		    menu, "Listar los pokemones", "l",
+		    "mostrar un listado detallado de los pokemones presentes en el hospital.",
+		    listar_pokemones, hash_hospitales) ||
+	    !menu_agregar_comando(menu, "Destruir un hospital", "d",
+				  "destruir el hospital activo.",
+				  destruir_hospital, hash_hospitales)) {
 		return false;
 	}
 
 	return true;
-
-	/* menu_agregar_comando(
-		menu, "Listar los pokemones", "L",
-		"mostrar un listado detallado de los pokemones presentes en el hospital.",
-		listar_pokemones);
-	menu_agregar_comando(menu, "Destruir un hospital", "D",
-			     "destruir el hospital activo.",
-			     destruir_hospital); */
 }
 
 menu_t *crear_hospital_pokemones(FILE *mensaje_ayuda,
@@ -351,11 +418,18 @@ char *determinar_comando(char *instruccion)
 	} else if (strcmp(instruccion, "activar") == 0 ||
 		   strcmp(instruccion, "habilitar") == 0) {
 		strcpy(instruccion, "a");
-	} else if (strcmp(instruccion, "mostrar") == 0 ||
-		   strcmp(instruccion, "pokemones") == 0) {
+	} else if (strcmp(instruccion, "mostrar") == 0) {
 		strcpy(instruccion, "m");
+	} else if (strcmp(instruccion, "listar") == 0 ||
+		   strcmp(instruccion, "lista") == 0 ||
+		   strcmp(instruccion, "pokemones") == 0) {
+		strcpy(instruccion, "l");
+	} else if (strcmp(instruccion, "destruir") == 0 ||
+		   strcmp(instruccion, "destroy") == 0 ||
+		   strcmp(instruccion, "kill") == 0 ||
+		   strcmp(instruccion, "k") == 0) {
+		strcpy(instruccion, "d");
 	}
-
 	return instruccion;
 }
 
