@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "menu.h"
+#include "TDAs/menu.h"
 #include "src/tp1.h"
 
 #define MAX_STRINGS 256

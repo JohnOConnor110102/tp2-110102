@@ -261,19 +261,21 @@ void lista_destruir_todo(lista_t *lista, void (*funcion)(void *))
 {
 	if (lista == NULL)
 		return;
+	if (lista_tamanio(lista) > 0) {
+		int contador = 0;
+		nodo_t *nodo_actual = lista->inicio;
+		nodo_t *nodo_aux = nodo_actual->siguiente;
+		while (contador < lista->cantidad_nodos) {
+			nodo_aux = nodo_actual->siguiente;
+			if (funcion != NULL)
+				funcion(nodo_actual->elemento);
 
-	int contador = 0;
-	nodo_t *nodo_actual = lista->inicio;
-	nodo_t *nodo_aux = nodo_actual->siguiente;
-	while (contador < lista->cantidad_nodos) {
-		nodo_aux = nodo_actual->siguiente;
-		if (funcion != NULL)
-			funcion(nodo_actual->elemento);
-
-		free(nodo_actual);
-		nodo_actual = nodo_aux;
-		contador++;
+			free(nodo_actual);
+			nodo_actual = nodo_aux;
+			contador++;
+		}
 	}
+
 	free(lista);
 }
 
