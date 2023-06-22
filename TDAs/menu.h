@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "hash.h"
 #include "lista.h"
 
@@ -58,7 +59,7 @@ bool menu_contiene_comando(menu_t *menu, const char *instruccion);
 	* Devuelve NULL en caso de error o de no encontrarlo,
 	* o el comando en caso contrario.
 */
-menu_t *menu_obtener_comando(menu_t *menu, const char *instruccion);
+comando_t *menu_obtener_comando(menu_t *menu, const char *instruccion);
 
 /* 
 	* Devuelve true si el menú no tiene comandos o no existe,
@@ -73,7 +74,8 @@ bool menu_vacio(menu_t *menu);
 size_t menu_cantidad_comandos(menu_t *menu);
 
 /* 
-	* Elimina el comando dado del menú.
+	* Elimina el comando dado del menú y libera la memoria 
+	* reservada para el mismo.
 	* Devuelve NULL en caso de error o de no poder eliminarlo, 
 	* o el menú en caso contrario.
 */

@@ -1,4 +1,3 @@
-#include <string.h>
 #include "menu.h"
 
 menu_t *menu_crear()
@@ -81,7 +80,7 @@ bool menu_contiene_comando(menu_t *menu, const char *instruccion)
 	return true;
 }
 
-menu_t *menu_obtener_comando(menu_t *menu, const char *instruccion)
+comando_t *menu_obtener_comando(menu_t *menu, const char *instruccion)
 {
 	if (!menu || !instruccion)
 		return NULL;
@@ -130,6 +129,7 @@ menu_t *menu_eliminar_comando(menu_t *menu, const char *instruccion)
 	comando_t *comando_eliminado =
 		lista_quitar_de_posicion(menu->comandos, posicion_comando);
 	free(comando_eliminado);
+	lista_iterador_destruir(lista_iterador);
 	return menu;
 }
 
