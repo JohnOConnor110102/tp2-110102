@@ -384,8 +384,8 @@ bool agregar_comandos(menu_t *menu, FILE *mensaje_ayuda,
 	return true;
 }
 
-menu_t *crear_hospital_pokemones(FILE *mensaje_ayuda,
-				 hash_hospitales_t *hash_hospitales)
+menu_t *crear_menu_hospital_pokemones(FILE *mensaje_ayuda,
+				      hash_hospitales_t *hash_hospitales)
 {
 	menu_t *menu = menu_crear();
 	if (!menu || !agregar_comandos(menu, mensaje_ayuda, hash_hospitales))
@@ -491,7 +491,8 @@ int main(int argc, char *argv[])
 		fclose(mensaje_error_comando);
 		return ERROR;
 	}
-	menu_t *menu = crear_hospital_pokemones(mensaje_ayuda, hash_hospitales);
+	menu_t *menu =
+		crear_menu_hospital_pokemones(mensaje_ayuda, hash_hospitales);
 	if (!menu) {
 		imprimir_error();
 		fclose(mensaje_ayuda);
@@ -507,9 +508,8 @@ int main(int argc, char *argv[])
 		char instruccion[MAX_STRINGS];
 		if (strcmp(registrar_entrada(entrada, instruccion), "s") == 0)
 			finalizado = true;
-		if (!menu_ejecutar_comando(menu, instruccion)) {
+		if (!menu_ejecutar_comando(menu, instruccion))
 			mostrar_mensaje(NULL, mensaje_error_comando);
-		}
 	}
 
 	fclose(mensaje_ayuda);

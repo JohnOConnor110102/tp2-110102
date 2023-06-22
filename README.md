@@ -9,51 +9,51 @@
 - Para compilar:
 
 ```bash
-gcc src/*.c pruebas_chanutron.c -std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O2 -g -o pruebas_chanutron
+Compilar TP2: gcc -std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O0 -g tp2.c TDAs/*.c src/*.c -o tp2
+Compilar pruebas TDA MENÚ: gcc -std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O0 -g src/*.c TDAs/*.c pruebas_alumno.c -o pruebas_alumno
+Compilar TP1: gcc src/*.c pruebas_chanutron.c -std=c99 -Wall -Wconversion -Wtype-limits -pedantic -Werror -O2 -g -o pruebas_chanutron
 ```
 
 - Para ejecutar:
 
 ```bash
-./pruebas_chanutron
+Ejecutar TP2: ./tp2
+Ejecutar pruebas TDA MENÚ: ./pruebas_alumno
+Ejecutar pruebas cátedra TP1: ./pruebas_chanutron
 ```
 
 - Para ejecutar con valgrind:
 
 ```bash
-valgrind --leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2 --show-leak-kinds=all --trace-children=yes ./pruebas_chanutron
+Ejecutar con valgrind TP2: valgrind --leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2 --show-leak-kinds=all --trace-children=yes ./tp2
+Ejecutar con valgrind pruebas TDA MENÚ: valgrind --leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2 --show-leak-kinds=all --trace-children=yes ./pruebas_alumno
+Ejecutar con valgrind pruebas cátedra TP1: valgrind --leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2 --show-leak-kinds=all --trace-children=yes ./pruebas_chanutron
 ```
 ---
 ##  Funcionamiento
 
-Explicación de cómo funcionan las estructuras desarrolladas en el TP y el funcionamiento general del mismo.
+El desarrollo del TDA MENÚ, utiliza como estructura a `menu_t`, la cual contiene una lista `lista_t` de los comandos que estarán disponibles en el menú. Los elementos de la lista estarán definidos por el struct `comando_t`, cuyos campos permiten guardar el nombre del comando, su instrucción(el caracter o string que ejecuta el comando), una descripción de su función, la función que ejecuta y un parámetro auxiliar de contexto.
 
-Aclarar en esta parte todas las decisiones que se tomaron al realizar el TP, cosas que no se aclaren en el enunciado, fragmentos de código que necesiten explicación extra, etc.
+En primer lugar se crea un nuevo menú mediante la función `menu_crear`. Esta reserva espacio en memoria dinámica suficiente para toda la estructura del menú. Este proceso se vé representado en el siguiene diagrama:
 
-Incluír **EN TODOS LOS TPS** los diagramas relevantes al problema (mayormente diagramas de memoria para explicar las estructuras, pero se pueden utilizar otros diagramas si es necesario).
+![Diagrama memoria menu_crear](img/diagrama_menu_crear.jpeg)
 
-### Por ejemplo:
+A partir del menú creado, se pueden realizar las siguientes operaciones: agregar un comando al menú (`menu_agregar_comando`), ejecutar un comando ya agregado al menú (`menu_ejecutar_comando`), verificar si el menú contiene un comando dado (`menu_contiene_comando`), obtener un comando existente en el menú (`menu_obtener_comando`), verificar si el menú está vacío o no (`menu_vacio`), obtener la cantidad de comandos dentro del menú (`menu_cantidad_comandos`), eliminar un comando del menú (`menu_eliminar_comando`) y destruir el menú creado (`menu_destruir`).
 
-El programa funciona abriendo el archivo pasado como parámetro y leyendolo línea por línea. Por cada línea crea un registro e intenta agregarlo al vector. La función de lectura intenta leer todo el archivo o hasta encontrar el primer error. Devuelve un vector con todos los registros creados.
+A la hora de agregar un comando al menú, se utiliza la función `crear_comando`, cuyo manejo de memoria se ve representado en el siguiente diagrama:
 
-<div align="center">
-<img width="70%" src="img/diagrama1.svg">
-</div>
-
-En el archivo `sarasa.c` la función `funcion1` utiliza `realloc` para agrandar la zona de memoria utilizada para conquistar el mundo. El resultado de `realloc` lo guardo en una variable auxiliar para no perder el puntero original en caso de error:
-
-```c
-int *vector = realloc(vector_original, (n+1)*sizeof(int));
-
-if(vector == NULL)
-    return -1;
-vector_original = vector;
-```
+![Diagrama memoria crear_comando](img/diagrama_crear_comando.jpeg)
 
 
-<div align="center">
-<img width="70%" src="img/diagrama2.svg">
-</div>
+Por otro lado, para el desarrollo del TP2 de un Menú de un Hospital de Pokemones, en primera instancia inicializo todos los elementos que van a ser necesarios para el desarrollo del programa. Estos son los archivos de mensajes (se utilizan archivos para imprimir por pantalla mensajes largos para que no irrumpan con el código en el archivo .c, y además para facilitar la visualización previa del output a pantalla), un hash que se utiliza a lo largo de la implementación para almacenar los hospitales que se deseen insertar en el menú (debido a que estos quedan identificados por un número que se toma como clave del par) y el menú que se utilizará a lo largo de la implementación.
+
+Para crear el menú, además se agregan al mismo los comandos que estarán disponibles para utilizar a lo largo de la ejecución del programa en la función `agregar_comandos` mediante `menu_comando_agregar`.
+
+A la hora de registrar la entrada del usuario, se utiliza la función `tolower` para no distinguir entre mayúsculas y minúsculas en las instrucciones dadas por el usuario, haciendo que la variedad de instrucciones aceptadas para un mismo comando aumente (ej, para el comando ayuda, se acepta tanto HELP, como AyUdA, A, a, etc). Luego de tener la entrada del usuario en minúscula, se llama a la función `determinar_comando` para distinguir entre varias posibiliades de instrucciones que refieren a un mismo comando a ejecutar, y luego inicializar la instrucción dada en la aceptada por los comandos ingresados.
+
+Por último se ejecuta el comando indicado mediante `menu_ejecutar_comando`, proceso que se repite hasta que el comando igresado sea el de salida, lo que termina la ejecución del programa.
+
+A lo largo de la ejecución, el programa utiliza dos estructuras principales. El menú, que se utiliza para guardar y ejecutar los comandos disponibles, y un hash en el que se almacenan los diferentes hospitales cargados.
 
 ---
 
