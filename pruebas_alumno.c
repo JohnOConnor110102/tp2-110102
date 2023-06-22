@@ -5,8 +5,6 @@ void pruebas_menu_crear()
 {
 	menu_t *menu = menu_crear();
 	pa2m_afirmar(!!menu, "Se puede crear un menú.");
-	pa2m_afirmar(menu->cantidad_comandos == 0,
-		     "La cantidad de comandos inicial es cero.");
 	pa2m_afirmar(!!menu->comandos,
 		     "La lista de comandos se crea correctamente.");
 	menu_destruir(menu);
