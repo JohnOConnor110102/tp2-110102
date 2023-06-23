@@ -25,12 +25,14 @@ Ejecutar pruebas cátedra TP1: ./pruebas_chanutron
 - Para ejecutar con valgrind:
 
 ```bash
-Ejecutar con valgrind TP2: valgrind --leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2 --show-leak-kinds=all --trace-children=yes ./tp2
-Ejecutar con valgrind pruebas TDA MENÚ: valgrind --leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2 --show-leak-kinds=all --trace-children=yes ./pruebas_alumno
-Ejecutar con valgrind pruebas cátedra TP1: valgrind --leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2 --show-leak-kinds=all --trace-children=yes ./pruebas_chanutron
+Ejecutar con valgrind TP2: valgrind --leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2 --show-leak-kinds=all ./tp2
+Ejecutar con valgrind pruebas TDA MENÚ: valgrind --leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2 --show-leak-kinds=all ./pruebas_alumno
+Ejecutar con valgrind pruebas cátedra TP1: valgrind --leak-check=full --track-origins=yes --show-reachable=yes --error-exitcode=2 --show-leak-kinds=all ./pruebas_chanutron
 ```
 ---
 ##  Funcionamiento
+
+**TDA MENU**
 
 El desarrollo del TDA MENÚ, utiliza como estructura a `menu_t`, la cual contiene una lista `lista_t` de los comandos que estarán disponibles en el menú. Los elementos de la lista estarán definidos por el struct `comando_t`, cuyos campos permiten guardar el nombre del comando, su instrucción(el caracter o string que ejecuta el comando), una descripción de su función, la función que ejecuta y un parámetro auxiliar de contexto.
 
@@ -43,6 +45,9 @@ A partir del menú creado, se pueden realizar las siguientes operaciones: agrega
 A la hora de agregar un comando al menú, se utiliza la función `crear_comando`, cuyo manejo de memoria se ve representado en el siguiente diagrama:
 
 ![Diagrama memoria crear_comando](img/diagrama_crear_comando.jpeg)
+
+
+**TP2** *Si se quiere probar el tp2, utilizar el archivo ej.txt para cargar el hospital*
 
 
 Por otro lado, para el desarrollo del TP2 de un Menú de un Hospital de Pokemones, en primera instancia inicializo todos los elementos que van a ser necesarios para el desarrollo del programa. Estos son los archivos de mensajes (se utilizan archivos para imprimir por pantalla mensajes largos para que no irrumpan con el código en el archivo .c, y además para facilitar la visualización previa del output a pantalla), un hash que se utiliza a lo largo de la implementación para almacenar los hospitales que se deseen insertar en el menú (debido a que estos quedan identificados por un número que se toma como clave del par) y el menú que se utilizará a lo largo de la implementación.
