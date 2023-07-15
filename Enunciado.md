@@ -9,7 +9,7 @@ Ya estamos cerca del final de la materia. Implementaste el TP1 y varios TDAs. Ah
 
 ## Desarrollo
 
-- Utilice el `tp1.c` ya implementado en el TP1. Explique cómo se podría reemplazar el vector dinámico de pokemones en la estructura `hospital_t` por algún otro TDA visto en la materia. ¿Que TDA conviene utilizar? ¿Que problema habría la reemplazar dicha estructura? ¿Habría algún problema con las pruebas? Justificar la respuesta. Selecciones por lo menos 2 TDA de los vistos en la materia y arme una tabla con la complejidad de cada una de las operaciones de `tp1.h` si se utilizara dicho TDA. (Por ejemplo, si usaramos una lista enlazada, la complejidad de crear el hospital es tanto por tal cosa, de recorrer el hospital es tal otra complejidad, etc).
+- Utilice el `tp1.c` ya implementado en el TP1. Explique cómo se podría reemplazar el vector dinámico de pokemones en la estructura `hospital_t` por algún otro TDA visto en la materia. ¿Que TDA conviene utilizar? ¿Que problema habría al reemplazar dicha estructura? ¿Habría algún problema con las pruebas? Justificar la respuesta. Selecciones por lo menos 2 TDA de los vistos en la materia y arme una tabla con la complejidad de cada una de las operaciones de `tp1.h` si se utilizara dicho TDA. (Por ejemplo, si usaramos una lista enlazada, la complejidad de crear el hospital es tanto por tal cosa, de recorrer el hospital es tal otra complejidad, etc).
 
 - Cree una aplicación (`tp2.c`) que haga uso de menúes para la interacción con el usuario. Se deja a cargo del alumno la presentación visual del trabajo, pero se deben incorporar las siguientes opciones:
   - S (salir/exit): Sale del programa (obviamente que libera toda la memoria).

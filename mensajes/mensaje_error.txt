@@ -1,0 +1,10 @@
+	
+	╔══════════════════════════════════════════════════════════════╗
+	║                            ERROR                             ║
+	╠══════════════════════════════════════════════════════════════╣
+	║Lo sentimos mucho! No se pudo ejecutar el programa 	       ║
+	║correctamente. Podés intentarlo de nuevo. Recordá que	       ║
+	║ingresando el comando de ayuda (H, help, ayuda, etc) te damos ║
+	║información útil.					       ║
+	╚══════════════════════════════════════════════════════════════╝
+
